@@ -53,7 +53,8 @@ public class EmpleadoPasante {
 ## Refactor 1 
 ### **Bad Smell:** Duplicated Code
 Los tres tipos de empleados tienen atributos en común: nombre, apellido, sueldoBasico
-### **Refactoring:**  Extract Superclass
+### **Refactoring:**  Extract Superclass y Pull Up Fields
+Aplico primero un Extract Superclass para crear una superclase Empleado para que luego extiendan los 3 tipos de empleados, y luego aplico Pull Up Fields para subir los atributos en comùn a la superclase junto con sus getters y setters para que no haya código duplicado en las clases.
 
 ```java
 public abstract class Empleado
@@ -205,8 +206,8 @@ public class EmpleadoPasante extends Empleado
 ## Refactor 3 
 ###  **Bad Smell:** Duplicated Code
 El método para calcular el sueldo tiene una parte que se repite para todos los empleados, conviene subir esa parte en común a la superclase
-###  **Refactoring:**  Pull Up Method
-Subo a la superclase la parte comun a todos los empleados en un nuevo método "SueldoConDescuento()" y dejo el metodo sueldo() como abstracto para que las subclases lo calculen dependiendo cual sea.
+###  **Refactoring:**  Extract Method y Pull Up Method
+Aplico primero un Extract Method en la parte común a todos los empleados creando un nuevo método sueldoBasicoConDescuento(), y luego al haber Duplicated Code en todas las clases hijas utilizando este método hago un Pull Up Method subiendo asi el método duplicado a la superclase e invocandola en las subclases.
 
 ```java
 public abstract class Empleado
@@ -273,7 +274,7 @@ public class EmpleadoTemporario extends Empleado
 
       @Override
       public double sueldo() {
-        return super.getSueldoBasicoConDescuento + (this.getHorasTrabajadas() * 500) - (this.getCantidadHijos() * 1000);
+        return this.getSueldoBasicoConDescuento() + (this.getHorasTrabajadas() * 500) - (this.getCantidadHijos() * 1000);
         }
 }
 
@@ -294,7 +295,7 @@ public class EmpleadoPlanta extends Empleado
 
      @Override
      public double sueldo() {
-        return super.getSueldoBasicoConDescuento() + (this.getCantidadHijos() * 2000);
+        return this.getSueldoBasicoConDescuento() + (this.getCantidadHijos() * 2000);
     }
 }
 
@@ -304,13 +305,13 @@ public class EmpleadoPasante extends Empleado
 
      @Override
      public double sueldo() {
-            return super.getSueldoBasicoConDescuento();
+            return this.getSueldoBasicoConDescuento();
         }
 }
 ```
 ## Refactor 4 
-###  **Bad Smell:**
-###  **Refactoring:**
+###  **Bad Smell:** Duplicated Code
+###  **Refactoring:** Extract Superclass y Pull Up Field
 
 
 
