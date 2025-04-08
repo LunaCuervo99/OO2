@@ -205,7 +205,7 @@ public class EmpleadoPasante extends Empleado
 ## Refactor 3 
 ###  **Bad Smell:** Duplicated Code
 El método para calcular el sueldo tiene una parte que se repite para todos los empleados, conviene subir esa parte en común a la superclase
-###  **Refactoring:**  Pull Up Code
+###  **Refactoring:**  Pull Up Method
 Subo a la superclase la parte comun a todos los empleados en un nuevo método "SueldoConDescuento()" y dejo el metodo sueldo() como abstracto para que las subclases lo calculen dependiendo cual sea.
 
 ```java
@@ -273,7 +273,7 @@ public class EmpleadoTemporario extends Empleado
 
       @Override
       public double sueldo() {
-        return this.getSueldoBasicoConDescuento + (this.getHorasTrabajadas() * 500) - (this.getCantidadHijos() * 1000);
+        return super.getSueldoBasicoConDescuento + (this.getHorasTrabajadas() * 500) - (this.getCantidadHijos() * 1000);
         }
 }
 
@@ -294,7 +294,7 @@ public class EmpleadoPlanta extends Empleado
 
      @Override
      public double sueldo() {
-        return this.getSueldoBasicoConDescuento() + (this.getCantidadHijos() * 2000);
+        return super.getSueldoBasicoConDescuento() + (this.getCantidadHijos() * 2000);
     }
 }
 
@@ -304,7 +304,7 @@ public class EmpleadoPasante extends Empleado
 
      @Override
      public double sueldo() {
-            return this.getSueldoBasicoConDescuento();
+            return super.getSueldoBasicoConDescuento();
         }
 }
 ```
