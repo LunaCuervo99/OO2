@@ -53,7 +53,7 @@ public class EmpleadoPasante {
 ## Refactor 1 
 ### **Bad Smell:** Duplicated Code
 Los tres tipos de empleados tienen atributos en común: nombre, apellido, sueldoBasico
-### **Refactoring:**  Extract Superclass y Pull Up Method? o van por separado?
+### **Refactoring:**  Extract Superclass
 
 ```java
 public abstract class Empleado
