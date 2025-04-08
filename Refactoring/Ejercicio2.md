@@ -160,6 +160,7 @@ public class EmpleadoTemporario extends Empleado
          this.cantidadHijos = hijos;
       }
 
+      @Override
       public double sueldo() {
         return this.getSueldoBasico 
         + (this.getHorasTrabajadas() * 500) 
@@ -183,6 +184,7 @@ public class EmpleadoPlanta extends Empleado
          this.cantidadHijos = hijos;
       }
 
+     @Override
      public double sueldo() {
         return this.getSueldoBasico() 
             + (this.getCantidadHijos() * 2000)
@@ -193,9 +195,123 @@ public class EmpleadoPlanta extends Empleado
 public class EmpleadoPasante extends Empleado
 {
     // ...
-    
+
+     @Override
      public double sueldo() {
             return this.getSueldoBasico() - (this.getSueldoBasico() * 0.13);
         }
 }
 ```
+## Refactor 3 
+###  **Bad Smell:** Duplicated Code
+El método para calcular el sueldo tiene una parte que se repite para todos los empleados, conviene subir esa parte en común a la superclase
+###  **Refactoring:**  Pull Up Code
+Subo a la superclase la parte comun a todos los empleados en un nuevo método "SueldoConDescuento()" y dejo el metodo sueldo() como abstracto para que las subclases lo calculen dependiendo cual sea.
+
+```java
+public abstract class Empleado
+{
+    private String nombre;
+    private String apellido;
+    private double sueldoBasico = 0;
+
+    public double sueldoBasicoConDescuento()
+    {
+        return this.getSueldoBasico() - (this.getSueldoBasico() * 0.13);
+    }
+
+    public abstract sueldo();
+
+    public String getNombre() {
+        return this.nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return this.apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public double getSueldoBasico() {
+        return this.sueldoBasico;
+    }
+
+    public void setSueldoBasico(double sueldoBasico) {
+        this.sueldoBasico = sueldoBasico;
+    }
+}
+
+public class EmpleadoTemporario extends Empleado
+{
+        private double horasTrabajadas = 0;
+        private int cantidadHijos = 0;
+        // ....
+
+       public double getHorasTrabajadas(){
+         return this.horasTrabajadas;
+       }
+
+      public void setHorasTrabajadas(double horas)
+      {
+         this.horasTrabajadas = horas;
+      }
+
+      public int getCantidadHijos(){
+         return this.cantidadHijos;
+       }
+
+      public void setCantidadHijos(int hijos)
+      {
+         this.cantidadHijos = hijos;
+      }
+
+      @Override
+      public double sueldo() {
+        return this.getSueldoBasicoConDescuento + (this.getHorasTrabajadas() * 500) - (this.getCantidadHijos() * 1000);
+        }
+}
+
+public class EmpleadoPlanta extends Empleado
+{
+      private int cantidadHijos = 0;
+      // ....
+
+      public int getCantidadHijos()
+       {
+         return this.cantidadHijos;
+       }
+
+      public void setCantidadHijos(int hijos)
+      {
+         this.cantidadHijos = hijos;
+      }
+
+     @Override
+     public double sueldo() {
+        return this.getSueldoBasicoConDescuento() + (this.getCantidadHijos() * 2000);
+    }
+}
+
+public class EmpleadoPasante extends Empleado
+{
+    // ...
+
+     @Override
+     public double sueldo() {
+            return this.getSueldoBasicoConDescuento();
+        }
+}
+```
+## Refactor 4 
+###  **Bad Smell:**
+###  **Refactoring:**
+
+
+
+
