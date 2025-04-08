@@ -65,18 +65,35 @@ public abstract class Empleado
 
 public class EmpleadoTemporario extends Empleado
 {
-    public double horasTrabajadas = 0;
-    public int cantidadHijos = 0;
-    // ....
+        public double horasTrabajadas = 0;
+        public int cantidadHijos = 0;
+        // ....
+    
+      public double sueldo() {
+        return this.sueldoBasico 
+        + (this.horasTrabajadas * 500) 
+        - (this.cantidadHijos * 1000) 
+        - (this.sueldoBasico * 0.13);
+        }
 }
 
 public class EmpleadoPlanta extends Empleado
 {
      public int cantidadHijos = 0;
      // ....
+
+     public double sueldo() {
+        return this.sueldoBasico 
+            + (this.cantidadHijos * 2000)
+            - (this.sueldoBasico * 0.13);
+    }
 }
 
 public class EmpleadoPasante extends Empleado
 {
     // ...
+    
+     public double sueldo() {
+            return this.sueldoBasico - (this.sueldoBasico * 0.13);
+        }
 }
