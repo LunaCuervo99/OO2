@@ -272,7 +272,6 @@ public class EmpleadoTemporario extends Empleado
          this.cantidadHijos = hijos;
       }
 
-      @Override
       public double sueldo() {
         return this.getSueldoBasicoConDescuento() + (this.getHorasTrabajadas() * 500) - (this.getCantidadHijos() * 1000);
         }
@@ -293,7 +292,6 @@ public class EmpleadoPlanta extends Empleado
          this.cantidadHijos = hijos;
       }
 
-     @Override
      public double sueldo() {
         return this.getSueldoBasicoConDescuento() + (this.getCantidadHijos() * 2000);
     }
@@ -311,8 +309,102 @@ public class EmpleadoPasante extends Empleado
 ```
 ## Refactor 4 
 ###  **Bad Smell:** Duplicated Code
+En la clase `EmpleadoPlanta` y `EmpleadoTemporario` se repite el atributo *cantidadHijos* para ambas clases.
 ###  **Refactoring:** Extract Superclass y Pull Up Field
+Aplico *Extract Superclass* y creo una nueva superclase **EmpleadoConHijos** de la que van a extender `EmpleadoPlanta` y `EmpleadoTemporario`.
+Luego como resultado de este refactoring me quedan las dos clases con *Duplicated Code* en cuanto al atributo *cantidadHijos* por lo que aplico el Refactor **Pull Up Field** subiendo asi el atributo a la superclase.
 
+```java
+public abstract class Empleado
+{
+    private String nombre;
+    private String apellido;
+    private double sueldoBasico = 0;
+
+    public double sueldoBasicoConDescuento()
+    {
+        return this.getSueldoBasico() - (this.getSueldoBasico() * 0.13);
+    }
+
+    public abstract sueldo();
+
+    public String getNombre() {
+        return this.nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return this.apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public double getSueldoBasico() {
+        return this.sueldoBasico;
+    }
+
+    public void setSueldoBasico(double sueldoBasico) {
+        this.sueldoBasico = sueldoBasico;
+    }
+}
+
+public abstract class EmpleadoConHijos extends Empleado
+{
+    private int cantidadHijos = 0;
+    // ....
+
+    public int getCantidadHijos(){
+         return this.cantidadHijos;
+       }
+
+      public void setCantidadHijos(int hijos)
+      {
+         this.cantidadHijos = hijos;
+      }
+}
+
+public class EmpleadoTemporario extends EmpleadoConHijos
+{
+        private double horasTrabajadas = 0;
+        // ....
+
+       public double getHorasTrabajadas(){
+         return this.horasTrabajadas;
+       }
+
+      public void setHorasTrabajadas(double horas)
+      {
+         this.horasTrabajadas = horas;
+      }
+
+      public double sueldo() {
+        return this.getSueldoBasicoConDescuento() + (this.getHorasTrabajadas() * 500) - (this.getCantidadHijos() * 1000);
+        }
+}
+
+public class EmpleadoPlanta extends extends EmpleadoConHijos
+{
+      // ....
+
+     public double sueldo(){
+        return this.getSueldoBasicoConDescuento() + (this.getCantidadHijos() * 2000);
+    }
+}
+
+public class EmpleadoPasante extends Empleado
+{
+    // ...
+
+     public double sueldo(){
+        return this.getSueldoBasicoConDescuento();
+     }
+}
+```
 
 
 
