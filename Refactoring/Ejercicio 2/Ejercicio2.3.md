@@ -1,1 +1,2 @@
-![uml2.3](Refactoring/img/uml2.3.png)
+![uml2.3](../img/uml2.3.png)
+
