@@ -44,6 +44,45 @@ public class Carrito {
 ```
 - - - 
 ## Refactor 1 
-### **Bad Smell:**
- `` 
-### **Refactoring:** 
+### **Bad Smell:** Feature Envy
+La clase `Carrito` esta designando mal las tareas, utilizando los atributos de `itemCarrito` para calcular el total. Por lo que ese metodo `total()` deberia estar en la Clase `Carrito` 
+### **Refactoring:** Extract Method y Move Method
+Extraigo la parte del metodo `total()` que utiliza los atributos de `itemCarrito` a otro metodo llamado `totalItemCarrito()`, y luego lo invoco en el metodo original `total.
+Luego aplico Move Method moviendo el metodo `totalItemCarrito()` a la clase `itemCarrito` que es quien le corresponde hacer ese calculo.
+```java
+public class Producto {
+    private String nombre;
+    private double precio;
+    
+    public double getPrecio() {
+        return this.precio;
+    }
+}
+
+public class ItemCarrito {
+    private Producto producto;
+    private int cantidad;
+        
+    public Producto getProducto() {
+        return this.producto;
+    }
+    
+    public int getCantidad() {
+        return this.cantidad;
+    }
+
+    public double totalItemCarrito() {
+        return this.getProducto().getPrecio() * this.getCantidad();
+    }
+}
+
+public class Carrito {
+    private List<ItemCarrito> items;
+    
+    public double total() {
+        return this.items.stream()
+        .mapToDouble(item -> item.totalItemCarrito())
+        .sum();
+    }
+}
+```

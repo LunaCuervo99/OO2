@@ -65,7 +65,7 @@ private List<Posts> getPostsOtrosUsuarios(Usuario user)
     }
 }
           
-private List<Posts> ordenarPostsPorFecha(List<Posts> postsOtrosUsuarios)
+private void ordenarPostsPorFecha(List<Posts> postsOtrosUsuarios)
 {
      for (int i = 0; i < postsOtrosUsuarios.size(); i++) {
           int masNuevo = i;
@@ -114,7 +114,7 @@ private List<Posts> getPostsOtrosUsuarios(Usuario user)
       .collect(Collectors.toList())
 }
           
-private List<Posts> ordenarPostsPorFecha(List<Posts> postsOtrosUsuarios)
+private void ordenarPostsPorFecha(List<Posts> postsOtrosUsuarios)
 {
     return postsOtrosUsuarios.stream()
       .sorted((p1,p2) -> p1.getFecha().compareTo(p2.getFecha()))
