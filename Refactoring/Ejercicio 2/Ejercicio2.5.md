@@ -32,7 +32,7 @@ public class Cliente {
 ### **Bad Smell:** Middle Man
 La clase `Cliente` solo esta actuando como intermediario entre `Supermercado` y `Direccion`
 ### **Refactoring:** Remove Middle Man
-Elimino la clase `Direccion` para que quede mas entendible el esquema, y muevo los atributos que tenia direccion a `Cliente` para que no quede una clase sin nada.
+Elimino la clase `Direccion` para que quede mas entendible el esquema, y muevo los atributos que tenia direccion a `Cliente` para que no quede una clase sin nada. 
 ```java
 public class Supermercado {
     public void notificarPedido(long nroPedido, Cliente cliente) {
