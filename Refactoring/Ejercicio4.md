@@ -192,11 +192,7 @@ public class Pedido {
     private List<Producto> productos;
     private FormaDePago formaPago;
     
-    public Pedido(Cliente cliente, List<Producto> productos, String formaPago) {
-        if (!"efectivo".equals(formaPago) && !"6 cuotas".equals(formaPago)
-            && !"12 cuotas".equals(formaPago)) {
-                throw new Error("Forma de pago incorrecta");
-            }
+    public Pedido(Cliente cliente, List<Producto> productos, FormaDePago formaPago) {
         this.cliente = cliente;
         this.productos = productos;
         this.formaPago = formaPago;
@@ -233,32 +229,37 @@ public class Pedido {
         }
     }
 
-    public interface FormaDePago
+    public abstract FormaDePago
     {
-        public double calcularCosto(double costo);
+        protected abstract double adicional();
+        
+        public double calcularCosto(double costo)
+        {
+            return costo * this.adicional();
+        }
     }
 
-    public class Efectivo implements FormaDePago
+    public class Efectivo extends FormaDePago
     {
-        public double calcularCosto(double costo)
+        public double adicional(double costo)
         {
             return 0;
         }
     }
 
-    public class SeisCuotas implements FormaDePago
+    public class SeisCuotas extends FormaDePago
     {
-        public double calcularCosto(double costo)
+        public double adicional(double costo)
         {
-            return costo * 0.2;
+            return 0.2;
         }
     }
 
-    public class DoceCuotas implements FormaDePago
+    public class DoceCuotas extends FormaDePago
     {
-        public double calcularCosto(double costo)
+        public double adicional(double costo)
         {
-            return costo * 0.5;
+            return 0.5;
         }
     }
 }   
@@ -270,11 +271,7 @@ public class Pedido {
     private List<Producto> productos;
     private FormaDePago formaPago;
     
-    public Pedido(Cliente cliente, List<Producto> productos, String formaPago) {
-        if (!"efectivo".equals(formaPago) && !"6 cuotas".equals(formaPago)
-            && !"12 cuotas".equals(formaPago)) {
-                throw new Error("Forma de pago incorrecta");
-            }
+    public Pedido(Cliente cliente, List<Producto> productos, FormaDePago formaPago) {
         this.cliente = cliente;
         this.productos = productos;
         this.formaPago = formaPago;
@@ -315,32 +312,35 @@ public class Pedido {
         }
     }
 
-    public interface FormaDePago
-    {
-        public double calcularCosto(double costo);
-    }
-
-    public class Efectivo implements FormaDePago
+    public abstract class FormaDePago
     {
         public double calcularCosto(double costo)
+        {
+            return costo * this.adicional();
+        }
+    }
+
+    public class Efectivo extends FormaDePago
+    {
+        public double adicional(double costo)
         {
             return 0;
         }
     }
 
-    public class SeisCuotas implements FormaDePago
+    public class SeisCuotas extends FormaDePago
     {
-        public double calcularCosto(double costo)
+        public double adicional(double costo)
         {
-            return costo * 0.2;
+            return 0.2;
         }
     }
 
-    public class DoceCuotas implements FormaDePago
+    public class DoceCuotas extends FormaDePago
     {
-        public double calcularCosto(double costo)
+        public double adicional(double costo)
         {
-            return costo * 0.5;
+            return 0.5;
         }
     }
 }   
